@@ -4,15 +4,29 @@ caption "何処へ行くの　あの日 for ONScripter"
 nsa
 globalon
 rmenu "セーブ",save,"ロード",load,"リセット",reset,"スキップ",skip,"ログ",lookback
-defsub setwin1
-defsub setwin2
 windowback
 savenumber 18
 humanz 30
+
+;-------------defsub----------------
+
+defsub setwin0
+defsub setwin1
+defsub setwin2
+
+;-----------------------------------
+
 game
 *start
+goto *title
+end
 
 *setwin1
 textoff
 setwindow3 55,470,24,3,17,17,1,2,10,1,1,":a;data/textwindow1.png",50,456
 return
+
+*setwin2
+return
+
+*title

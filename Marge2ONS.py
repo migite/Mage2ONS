@@ -1,5 +1,4 @@
 import os
-import sys
 import glob
 import re
 from PIL import Image
@@ -50,19 +49,23 @@ for f in UI_picture:
 
 # ========================================================================
 
-
 for snr_path in pathlist:
+
     with open(snr_path, encoding='cp932', errors='ignore') as f:
-        print(pathlist)
-        def Theme_BGM_replace(input):
 
-            line = line.replace('#絵麻のテーマ','bgm "bgm\\m_01.wav"')
-            
-
+        nametag = ''
         
-
         for line in f:
-           
+            comment_line = re.match(r'％(\S+)',line)
+            voice_line = re.match(r'#VOICE=VOICE\\(\S+)\\(\S+)',line)
+            name_text = re.match(r'/{0,4}【(\S+)】',line)
+            text_line = re.match(r'^[^ -~｡-ﾟ]{3,}',line)
+            repage_line = re.match(r'#NEXT',line)
+
+            #音楽、背景、立ち絵はエイリアスが使われているので(対応はuser.txt参照)
+            #変換処理をしたいが、いまいち良い方法がわかりません。
+            #今のままだと立ち絵関連で2400行くらいになるんだな、これが
+
             line = line.replace('#絵麻のテーマ','bgm "bgm\\m_01.wav"')
             line = line.replace('#千尋のテーマ','bgm "bgm\\m_02.wav"')
             line = line.replace('#桐李のテーマ','bgm "bgm\\m_03.wav"')
@@ -89,6 +92,37 @@ for snr_path in pathlist:
             line = line.replace('#ＯＰ','bgm "bgm\\m_24.wav"')
             line = line.replace('#ＥＤ','bgm "bgm\\m_25.wav"')
             line = line.replace('#挿入歌','bgm "bgm\\m_26.wav"')
+
+            line = line.replace('#MES_WINDOW_OFF','setwin0')
+            line = line.replace('#MES_WINDOW_LOAD','setwin1')
+            line = line.replace('#NOVEL_WINDOW_LOAD','setwin2')
+
+
+            if comment_line:
+                line = ';;' + comment_line[1] + '\n'
+
+            elif voice_line:
+                #print(line)
+
+                line = 'dwave 1,"voice\\' + voice_line[1] + '\\' + voice_line[2] + '"\n'
+
+            elif name_text:
+                nametag = name_text[1]
+                print(line)
+                line = '\n'
+            
+            elif text_line:
+
+                if re.match(r'^[^ -~｡-ﾟ]{3,}\＠',line):
+                    line = '[' +nametag + ']' + line.replace('＠','@') + '\n'
+                    nametag = ''
+
+                else:
+                    line = '[' +nametag + ']' + line + '\n'
+
+            elif repage_line:
+                nametag = ''
+                line = '\\\n' 
 
             txt += line
 
