@@ -1,0 +1,18 @@
+*mode 800
+*define
+caption "何処へ行くの　あの日 for ONScripter"
+nsa
+globalon
+rmenu "セーブ",save,"ロード",load,"リセット",reset,"スキップ",skip,"ログ",lookback
+defsub setwin1
+defsub setwin2
+windowback
+savenumber 18
+humanz 30
+game
+*start
+
+*setwin1
+textoff
+setwindow3 55,470,24,3,17,17,1,2,10,1,1,":a;data/textwindow1.png",50,456
+return
