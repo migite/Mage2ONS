@@ -49,6 +49,29 @@ for f in UI_picture:
 
 # ========================================================================
 
+#音楽、背景、立ち絵はエイリアスが使われているので(対応はuser.txt参照)
+            #変換処理をしたいが、いまいち良い方法がわかりません。
+            #今のままだと立ち絵関連で2400行くらいになるんだな、これが。
+            #背景は正規表現でくくれそうなので大丈夫
+            #取得する変数使ってBGM_listのやつみたいにぶん回すのが多分正解
+    BGM_list = {'#絵麻のテーマ':'bgm "bgm\\m_01.wav"','#千尋のテーマ':'bgm "bgm\\m_02.wav"',
+                '#桐李のテーマ':'bgm "bgm\\m_03.wav"','#一葉のテーマ':'bgm "bgm\\m_04.wav"',
+                '#青井のテーマ':'bgm "bgm\\m_05.wav"','#楽しい日常のテーマ':'bgm "bgm\\m_06.wav"',
+                '#通常の日常のテーマ':'bgm "bgm\\m_07.wav"','#暗め日常のテーマ':'bgm "bgm\\m_08.wav"',
+                '#静かな不安のテーマ':'bgm "bgm\\m_09.wav"','#激しい不安のテーマ':'bgm "bgm\\m_10.wav"',
+                '#孤独のテーマ':'bgm "bgm\\m_11.wav"','#回想／夢のテーマ':'bgm "bgm\\m_12.wav"',
+                '#擦れ違い／切なさのテーマ':'bgm "bgm\\m_13.wav"','#悲しみのテーマ':'bgm "bgm\\m_14.wav"',
+                '#泣きのテーマ':'bgm "bgm\\m_15.wav"','#怪しい夢のテーマ':'bgm "bgm\\m_16.wav"',
+                '#子ども時代のテーマ':'bgm "bgm\\m_17.wav"','#別世界のテーマ':'bgm "bgm\\m_18.wav"',
+                '#敵のテーマ':'bgm "bgm\\m_19.wav"','#寄り添いのテーマ':'bgm "bgm\\m_20.wav"',
+                '#幸福のテーマ':'bgm "bgm\\m_21.wav"','#スタッフロール':'bgm "bgm\\m_22.wav"',
+                '#タイトル画面':'bgm "bgm\\m_23.wav"','#ＯＰ':'bgm "bgm\\m_24.wav"',
+                '#ＥＤ':'bgm "bgm\\m_25.wav"','#挿入歌':'bgm "bgm\\m_26.wav"'}
+
+
+
+# ========================================================================
+
 for snr_path in pathlist:
 
     with open(snr_path, encoding='cp932', errors='ignore') as f:
@@ -61,37 +84,8 @@ for snr_path in pathlist:
             name_text = re.match(r'/{0,4}【(\S+)】',line)
             text_line = re.match(r'^[^ -~｡-ﾟ]{3,}',line)
             repage_line = re.match(r'#NEXT',line)
-
-            #音楽、背景、立ち絵はエイリアスが使われているので(対応はuser.txt参照)
-            #変換処理をしたいが、いまいち良い方法がわかりません。
-            #今のままだと立ち絵関連で2400行くらいになるんだな、これが
-
-            line = line.replace('#絵麻のテーマ','bgm "bgm\\m_01.wav"')
-            line = line.replace('#千尋のテーマ','bgm "bgm\\m_02.wav"')
-            line = line.replace('#桐李のテーマ','bgm "bgm\\m_03.wav"')
-            line = line.replace('#一葉のテーマ','bgm "bgm\\m_04.wav"')
-            line = line.replace('#青井のテーマ','bgm "bgm\\m_05.wav"')
-            line = line.replace('#楽しい日常のテーマ','bgm "bgm\\m_06.wav"')
-            line = line.replace('#通常の日常のテーマ','bgm "bgm\\m_07.wav"')
-            line = line.replace('#暗め日常のテーマ','bgm "bgm\\m_08.wav"')
-            line = line.replace('#静かな不安のテーマ','bgm "bgm\\m_09.wav"')
-            line = line.replace('#激しい不安のテーマ','bgm "bgm\\m_10.wav"')
-            line = line.replace('#孤独のテーマ','bgm "bgm\\m_11.wav"')
-            line = line.replace('#回想／夢のテーマ','bgm "bgm\\m_12.wav"')
-            line = line.replace('#擦れ違い／切なさのテーマ','bgm "bgm\\m_13.wav"')
-            line = line.replace('#悲しみのテーマ','bgm "bgm\\m_14.wav"')
-            line = line.replace('#泣きのテーマ','bgm "bgm\\m_15.wav"')
-            line = line.replace('#怪しい夢のテーマ','bgm "bgm\\m_16.wav"')
-            line = line.replace('#子ども時代のテーマ','bgm "bgm\\m_17.wav"')
-            line = line.replace('#別世界のテーマ','bgm "bgm\\m_18.wav"')
-            line = line.replace('#敵のテーマ','bgm "bgm\\m_19.wav"')
-            line = line.replace('#寄り添いのテーマ','bgm "bgm\\m_20.wav"')
-            line = line.replace('#幸福のテーマ','bgm "bgm\\m_21.wav"')
-            line = line.replace('#スタッフロール','bgm "bgm\\m_22.wav"')
-            line = line.replace('#タイトル画面','bgm "bgm\\m_23.wav"')
-            line = line.replace('#ＯＰ','bgm "bgm\\m_24.wav"')
-            line = line.replace('#ＥＤ','bgm "bgm\\m_25.wav"')
-            line = line.replace('#挿入歌','bgm "bgm\\m_26.wav"')
+            bgm_line = re.fullmatch(r'#[^ -~｡-ﾟ]{1,8}のテーマ\n|#スタッフロール|#タイトル画面|#ＯＰ|#ＥＤ',line)
+            bg_line = re.match(r'#bg_(\d+)(\S+)',line)
 
             line = line.replace('#MES_WINDOW_OFF','setwin0')
             line = line.replace('#MES_WINDOW_LOAD','setwin1')
@@ -108,7 +102,7 @@ for snr_path in pathlist:
 
             elif name_text:
                 nametag = name_text[1]
-                print(line)
+                #print(line)
                 line = '\n'
             
             elif text_line:
@@ -123,6 +117,42 @@ for snr_path in pathlist:
             elif repage_line:
                 nametag = ''
                 line = '\\\n' 
+
+            elif bgm_line:
+                for line in BGM_list:
+                    print(line)
+                    line = BGM_list[line] + '\n'
+
+            elif bg_line:
+                bg_trance =  re.match(r'#bg_(\d+)(\S+)、(\S+){1,3}',line)
+                if bg_trance:
+                    match bg_trance[3]:
+                        case '曇り':
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_trance[1] + '_c.png",0,0\nprint 1\n'
+                        case '夕方':
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_trance[1] + '_y.png",0,0\nprint 1\n'
+                        case '夜':
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_trance[1] + '_n.png",0,0\nprint 1\n'
+                        case '過去':
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_trance[1] + '.png",0,0\nprint 1\n'
+                        case '消灯':
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_trance[1] + '_sh.png",0,0\nprint 1\n'
+
+                    line = line.replace('bg_23_n.png"','bg_23.png')
+                else:
+                    match bg_line[2]:
+                        case '夜空－差分':
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_line[2] + '_a.png",0,0\nprint 1\n'
+                        case '夜空':
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_line[2] + '_b.png",0,0\nprint 1\n'
+                        case '病院廊下－差分':
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_line[2] + '_a.png",0,0\nprint 1\n'
+                        case '病院廊下':
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_line[2] + '_b.png",0,0\nprint 1\n'
+
+                        case _:
+                            line = 'lsp 39,":a;data\\pic\\bg\\' + 'bg_' + bg_line[2] + '.png",0,0\nprint 1\n'
+
 
             txt += line
 

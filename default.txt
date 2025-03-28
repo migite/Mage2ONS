@@ -8,6 +8,7 @@ windowback
 savenumber 18
 humanz 30
 
+pretextgosub *pretext_sb
 ;-------------defsub----------------
 
 defsub setwin0
@@ -17,9 +18,30 @@ defsub setwin2
 ;-----------------------------------
 
 game
+;-----------------------------------
+;スプライト一覧表
+;
+;  10:キャラクター名
+;  
+
+
 *start
 goto *title
 end
+
+*pretext_sb
+saveoff
+gettag $0
+lsp 10,":s/50,50,0;#ffffff$0",30,392
+
+print 1
+
+return
+
+*setwin0
+textoff
+
+return
 
 *setwin1
 textoff
