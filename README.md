@@ -1,6 +1,8 @@
 # Mage2ONS
 
-未展開のゲームデータから、[ONScripter](https://ogapee.github.io/www/onscripter.html) でプレイ可能な環境を生成するコンバータです。
+2004年にMOONSTONEから発売された、「何処へ行くの、あの日」をONScrpiter向けに変換するツールです。  
+DL版をもとに作成しておりますが、パッケージ版でも対応するかと思われます。(未検証)  
+Price of Sea氏の[ONScripter_Multi_Converter](https://github.com/Prince-of-sea/ONScripter_Multi_Converter)にコンバータを提供しております。  
 
 > 本コンバータはAIエージェントによって生成されました。
 
